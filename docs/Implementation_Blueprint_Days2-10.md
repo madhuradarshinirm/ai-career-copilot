@@ -16,103 +16,142 @@
 
 ---
 
-## Day 2 — Technical Design & Environment Setup
+## Day 2 — Technical Design & System Architecture ✅ COMPLETED
 
 ### 🎯 Objective
-Choose the concrete tech stack, set up the local dev environment, initialize the project repository, and connect the managed auth/database provider — with nothing built yet, but everything ready to build on.
+Finalize the tech stack and produce the complete technical design: architecture, database schema, API contract, UI wireframes, and project structure — no code written yet.
 
-### 📖 What I'll learn
-How to make and justify stack decisions for a small AI product; how to wire up a managed backend-as-a-service (auth + database) without building your own server-side auth.
+### ✅ Final Locked Stack (confirmed Day 2, AI provider updated Day 3)
+| Layer | Choice |
+|---|---|
+| Frontend | React (Vite) |
+| Backend | Node.js + Express |
+| Database | Supabase (Postgres) |
+| Auth | Supabase Auth (email/password) |
+| AI | **Google Gemini API** (switched from Anthropic Claude API on Day 3 — free tier requirement) |
+| Frontend Hosting | Vercel |
+| Backend Hosting | Render (free Web Service) |
 
-### 🛠 Features to build
-None yet — this is infrastructure only. No user-facing feature ships today.
+### 📦 Deliverables produced Day 2 (all in `docs/`)
+- `ARCHITECTURE.md`, `SCHEMA.md`, `API.md`, `UI-WIREFRAMES.md`, `PROJECT-STRUCTURE.md`
 
-### 📝 Step-by-step implementation plan
-1. **Confirm the stack** (recommended, given beginner/intermediate + prior deploy experience + 3-4 hrs/day budget):
-   - Frontend: **React** (via Vite) — fast local dev, simple deploy story
-   - Backend/API: **Node.js + Express** OR serverless functions on the same host as the frontend (choose based on what you deployed successfully before — reuse that pattern to reduce risk)
-   - Auth + Database: **Supabase** (Postgres + built-in Auth, generous free tier, one dashboard for both)
-   - LLM: your existing API key (Anthropic Claude API recommended for quality of structured feedback output)
-   - Hosting: whichever of Vercel/Render/Railway/Netlify you've successfully deployed to before — **do not experiment with a new host this week**
-2. Create a **new GitHub repository**: `ai-career-copilot`. Initialize with a `.gitignore` for Node.
-3. Scaffold the frontend: `npm create vite@latest frontend -- --template react`
-4. Scaffold the backend (if separate from frontend): `npm init -y` inside `/backend`, install `express`, `cors`, `dotenv`.
-5. Create a **Supabase project** (free tier) via supabase.com dashboard. Note the project URL and anon/public API key.
-6. In Supabase Auth settings, enable **email/password sign-up** (simplest for v1.0 — no need for social login).
-7. Create a `.env` file (never committed) in both frontend and backend holding: `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `LLM_API_KEY`. Add `.env` to `.gitignore`.
-8. Install Supabase client library in frontend: `npm install @supabase/supabase-js`.
-9. Write a tiny test script that connects to Supabase and confirms the connection works (e.g. fetch the current session — should return null but no error).
-10. Commit and push the empty-but-wired-up scaffold to GitHub.
-
-### 📂 Files and folders to create or modify
-```
-ai-career-copilot/
-├── frontend/          (Vite React app)
-│   ├── src/
-│   ├── .env           (gitignored)
-├── backend/            (Express API, if using separate backend)
-│   ├── index.js
-│   ├── .env            (gitignored)
-├── .gitignore
-├── README.md            (placeholder for now)
-```
-
-### 🔗 APIs, libraries, services, or tools to integrate
-- Supabase (Auth + Postgres database) — free tier
-- Anthropic Claude API (or your existing LLM provider) — key already available
-- GitHub for version control
-
-### 🧪 Testing tasks
-- Confirm `npm run dev` starts the frontend locally without errors.
-- Confirm the Supabase connection test script runs without throwing an error.
-- Confirm `.env` files are NOT visible in `git status` (i.e. properly ignored).
-
-### 🐞 Common issues and debugging tips
-- **Supabase keys not loading:** Vite requires env vars to be prefixed `VITE_` to be exposed to frontend code (e.g. `VITE_SUPABASE_URL`).
-- **CORS errors** if using a separate backend: enable `cors()` middleware in Express early.
-- **Accidentally committing `.env`:** if it happens, rotate the keys in Supabase/Anthropic dashboards immediately rather than trying to "un-commit" cleanly.
-
-### ✅ End-of-day checklist
-- [ ] GitHub repo created and pushed
-- [ ] Frontend scaffold runs locally
-- [ ] Supabase project created, Auth enabled
-- [ ] Environment variables wired and gitignored
-- [ ] Supabase connection verified with a test call
-
-### 📸 Expected project state and screenshots to capture
-- Screenshot of the running local dev server (blank Vite starter page)
-- Screenshot of the Supabase dashboard showing the project and Auth enabled
-- Screenshot of the GitHub repo with initial commit
-
-### ➡️ Handoff notes for next day
-Stack is: [confirm your actual choices here once decided]. Supabase project URL and Auth are live. No UI or features exist yet — Day 3 starts building the resume upload screen and account signup/login flow.
+### ➡️ Handoff notes for Day 3
+Design complete. Day 3 begins actual project scaffolding, Supabase project creation, and foundation code — no design decisions remain open except AI provider (resolved Day 3, see below).
 
 ---
 
-## Day 3 — Authentication + Resume Input UI
+## Day 3 — Project Setup & Foundation ✅ COMPLETED
 
 ### 🎯 Objective
-Build working signup/login and the resume input screen (PDF upload + paste fallback), storing the uploaded resume text tied to the logged-in user.
+Build the project's technical foundation: dev environment configured, both `frontend/` and `backend/` scaffolded and running, Supabase project live with schema deployed, environment variables wired, and basic routing/navigation/auth scaffold in place. No full feature logic yet — that starts Day 4.
 
 ### 📖 What I'll learn
-Wiring a managed auth flow into a React UI; handling file uploads; extracting text from a PDF client-side or server-side.
+Scaffolding a two-service (frontend + backend) JavaScript project from scratch; connecting a managed backend-as-a-service (Supabase); structuring environment variables safely; setting up client-side routing.
 
 ### 🛠 Features to build
-- Signup / Login / Logout screens
-- Protected route (only logged-in users reach the resume screen)
-- Resume upload (PDF) with text extraction
+None — foundation only, per plan. A "Hello World" level app that runs, not a working product yet.
+
+### 📝 Step-by-step implementation plan (as executed today)
+1. Verified environment: Node v22.19.0, npm 10.9.3, Git 2.50.1 — all healthy.
+2. Scaffolded frontend: `npm create vite@latest frontend -- --template react`, then `npm install`.
+3. Scaffolded backend: `mkdir backend && cd backend && npm init -y`, then `npm install express cors dotenv @supabase/supabase-js`.
+4. Installed remaining frontend dependencies: `npm install react-router-dom @supabase/supabase-js pdfjs-dist`.
+5. Created Supabase project (`ai-career-copilot`, South Asia/Mumbai region, Free tier).
+6. Ran full schema SQL from `SCHEMA.md` in Supabase SQL Editor — created all 5 tables (`resumes`, `skill_reports`, `questions`, `interview_sessions`, `interview_answers`) with RLS policies. Verified in Table Editor.
+7. Confirmed Email/Password auth provider enabled in Supabase Auth settings.
+8. Retrieved API credentials (Publishable key, Secret key, Project URL) from Supabase → Settings → API Keys.
+9. **Decision point:** discovered Anthropic Claude API account had $0 credits. Switched AI provider to **Google Gemini API** (free tier) to satisfy PRD's free-tier requirement. Updated `ARCHITECTURE.md`, `PROJECT-STRUCTURE.md`, `API.md`, and this Blueprint accordingly (see change log in `ARCHITECTURE.md`).
+10. Created `frontend/.env` (`VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `VITE_API_BASE_URL`) and `backend/.env` (`SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `GEMINI_API_KEY`, `PORT`).
+
+### 📂 Files and folders created today
+```
+ai-career-copilot/
+├── frontend/                  (Vite React scaffold, dependencies installed)
+│   ├── .env                   (gitignored)
+├── backend/                   (Express scaffold, dependencies installed)
+│   ├── .env                   (gitignored)
+├── docs/                      (Day 1-2 deliverables to be organized here)
+```
+Remaining foundation code (routing, layout, auth scaffold, Supabase clients, API client) to be created in the rest of today's session per `PROJECT-STRUCTURE.md`.
+
+### 🔗 APIs, libraries, services, or tools integrated
+- Supabase (Auth + Postgres) — live, free tier
+- Google Gemini API — free tier (replaces Claude API)
+- react-router-dom, pdfjs-dist, @supabase/supabase-js (frontend)
+- express, cors, dotenv, @supabase/supabase-js (backend)
+
+### 🧪 Testing tasks
+- Confirmed `npm install` completed with 0 vulnerabilities on both frontend and backend.
+- Confirmed all 5 Supabase tables exist via Table Editor.
+- Confirmed Email auth provider shows "Enabled."
+
+### 🐞 Common issues and debugging tips
+- **AI provider swap mid-project:** handled cleanly because `ARCHITECTURE.md` always treated the LLM as a single wrapped client — no schema or API contract changes needed, only the client wrapper file and env variable name.
+- **Supabase's newer key naming** ("Publishable key" / "Secret key") replaces the older "anon key" / "service_role key" terms found in some Supabase docs/tutorials — they are functionally equivalent.
+
+### ✅ End-of-day checklist
+- [x] Environment verified (Node, npm, Git)
+- [x] Frontend scaffolded and dependencies installed
+- [x] Backend scaffolded and dependencies installed
+- [x] Supabase project created, schema deployed, RLS policies active
+- [x] Email/password auth enabled
+- [x] Environment variables configured in both `.env` files
+- [x] AI provider decision resolved (Gemini) and documented
+- [ ] Foundation code (routing, layout, auth scaffold) — in progress, see chat
+- [ ] Hello World verified running — pending
+- [ ] Committed and pushed to GitHub — pending
+
+### 📸 Expected project state and screenshots to capture
+- Terminal output for each scaffold/install step
+- Supabase Table Editor showing all 5 tables
+- Supabase Auth Providers showing Email enabled
+- Running Hello World app in browser (pending)
+
+### ➡️ Handoff notes for Day 4
+**AI provider is Google Gemini, not Claude — use `GEMINI_API_KEY` and Gemini's API format for all AI calls from today onward.** Foundation (routing, layout, Supabase clients, auth scaffold) is in place by end of Day 3. Day 4 now covers a combined scope: (1) finish wiring **working** signup/login/logout and resume upload+save logic — originally planned as a standalone Day 3 — plus (2) the Skill Gap Report + Prep Plan AI integration using Gemini. If time is tight, prioritize (1) and (2)'s core loop; defer AI prompt-quality polish to Day 7's polish pass rather than over-iterating today.
+
+---
+
+## Day 4 — Auth + Resume Input (Working Logic) + Skill Gap Report & Prep Plan (AI Integration)
+
+*Note: this day's scope was expanded on Day 3 — it now includes finishing the working authentication and resume-input logic (originally planned as a standalone Day 3) in addition to the original AI integration work, since Day 2 was used entirely for design. See Day 3's handoff notes above.*
+
+### 🎯 Objective
+Part A: Finish wiring **working** signup/login/logout and resume upload+save logic on top of today's (Day 3's) foundation scaffold. Part B: Send the saved resume text to the LLM (Gemini), generate a structured Skill Gap Report and Prep Plan, and display both clearly in the UI.
+
+### 📖 What I'll learn
+Wiring a managed auth flow into a React UI; handling file uploads and PDF text extraction; prompt engineering for structured, reliable JSON output from an LLM; designing a UI around AI-generated content that must feel personalized and trustworthy.
+
+### 🛠 Features to build
+**Part A — Auth + Resume Input:**
+- Working signup / login / logout (build on Day 3's `useAuth` scaffold)
+- Protected route enforcement (build on Day 3's `ProtectedRoute` scaffold)
+- Resume upload (PDF, using `pdfjs-dist`) with text extraction
 - Resume paste-text fallback
-- Save extracted resume text to the database, linked to the user
+- Save extracted resume text to the `resumes` table, linked to the logged-in user
+
+**Part B — AI Integration:**
+- "Analyze My Resume" action that calls the Gemini API
+- Skill Gap Report display (strengths vs. gaps)
+- Personalized Prep Plan display (prioritized topic list)
+- Save both to the database, linked to the user and resume
 
 ### 📝 Step-by-step implementation plan
-1. Build `SignUp.jsx` and `Login.jsx` forms using `supabase.auth.signUp()` and `supabase.auth.signInWithPassword()`.
-2. Build a simple auth context/hook (`useAuth`) that tracks the current logged-in user across the app.
-3. Add a protected route wrapper: redirect to `/login` if no user session.
-4. Create a `resumes` table in Supabase: columns `id, user_id, resume_text, created_at`.
-5. Build `ResumeUpload.jsx`: a file input accepting `.pdf`, plus a "Paste your resume text instead" textarea toggle.
-6. For PDF text extraction, use a client-side library (e.g. `pdfjs-dist`) OR send the file to a backend endpoint that extracts text server-side — pick whichever matches your chosen architecture from Day 2.
-7. On submit, save extracted/pasted resume text to the `resumes` table linked to `user_id`.
-8. Show a simple confirmation state ("Resume received") after successful save.
+
+**Part A:**
+1. Build `SignUp.jsx` and `Login.jsx` forms using `supabase.auth.signUp()` and `supabase.auth.signInWithPassword()`, using the `useAuth` hook created Day 3.
+2. Confirm the `ProtectedRoute` wrapper (Day 3 scaffold) correctly redirects unauthenticated users.
+3. Build `ResumeUpload.jsx`: a file input accepting `.pdf`, plus a "Paste your resume text instead" textarea toggle.
+4. Use `pdfjs-dist` to extract text client-side from the uploaded PDF.
+5. On submit, save extracted/pasted resume text to the `resumes` table (RLS-protected, per `SCHEMA.md`) linked to `user_id`.
+6. Show a simple confirmation state ("Resume received") after successful save.
+
+**Part B:**
+7. Define the **SDE Intern skill framework** as a fixed reference list fed into the prompt — e.g. Data Structures & Algorithms, OOP fundamentals, System Design basics, Databases/SQL, Version Control/Git, Web Fundamentals, Problem Solving/Communication.
+8. Write the Gemini prompt instructing the model to: read the resume text, compare against the skill framework, and return **strict JSON**: `{ strengths: [...], gaps: [{ topic, why, priority }], prep_plan: [{ topic, action, priority }] }`.
+9. Build the backend endpoint `POST /api/analyze-resume` (per `API.md`): fetches resume text, calls the Gemini API via `geminiClient.js`, parses the JSON response, saves it to `skill_reports`.
+10. Build `SkillGapReport.jsx` and `PrepPlan.jsx` to render the results clearly.
+11. Add a loading state while the AI call is in progress, and error handling for malformed/failed responses (retry-once pattern per `ARCHITECTURE.md`).
 
 ### 📂 Files and folders to create or modify
 ```
@@ -120,75 +159,9 @@ frontend/src/
 ├── auth/
 │   ├── SignUp.jsx
 │   ├── Login.jsx
-│   ├── useAuth.js
-│   ├── ProtectedRoute.jsx
 ├── resume/
 │   ├── ResumeUpload.jsx
-│   ├── resumeParser.js       (PDF text extraction helper)
-├── lib/
-│   ├── supabaseClient.js
-```
-
-### 🔗 APIs, libraries, services, or tools to integrate
-- `@supabase/supabase-js` (auth + database calls)
-- `pdfjs-dist` (or equivalent) for PDF text extraction
-- React Router (if not already set up) for protected routes
-
-### 🧪 Testing tasks
-- Sign up a new test account, confirm it appears in Supabase Auth dashboard.
-- Log out and log back in successfully.
-- Upload a real PDF resume, confirm extracted text looks correct (spot check, doesn't need to be perfect).
-- Use paste fallback, confirm it saves identically to the `resumes` table.
-- Confirm an unauthenticated user is redirected away from the resume screen.
-
-### 🐞 Common issues and debugging tips
-- **PDF extraction returns garbled text:** common with multi-column resumes — this is exactly why the paste fallback exists; don't over-invest time perfecting PDF parsing.
-- **Supabase Row Level Security (RLS) blocking inserts:** by default Supabase tables are locked down — you'll need to add an RLS policy allowing users to insert/select their own rows (`auth.uid() = user_id`).
-- **Session not persisting on refresh:** make sure `useAuth` subscribes to `supabase.auth.onAuthStateChange`.
-
-### ✅ End-of-day checklist
-- [ ] Signup/login/logout working end-to-end
-- [ ] Protected route blocks unauthenticated access
-- [ ] PDF upload extracts and saves text
-- [ ] Paste fallback saves text
-- [ ] RLS policies confirmed working (user only sees their own resume)
-
-### 📸 Expected project state and screenshots to capture
-- Screenshot of signup form and successful account creation
-- Screenshot of resume upload screen with a real resume uploaded
-- Screenshot of the `resumes` table in Supabase showing a saved row
-
-### ➡️ Handoff notes for next day
-Auth and resume storage are fully working. A logged-in user can upload/paste a resume and it's saved to `resumes`. Day 4 takes that saved resume text and sends it to the LLM to generate the Skill Gap Report and Prep Plan.
-
----
-
-## Day 4 — Skill Gap Report + Personalized Prep Plan (AI Integration)
-
-### 🎯 Objective
-Send the saved resume text to the LLM, generate a structured Skill Gap Report and Prep Plan, and display both clearly in the UI.
-
-### 📖 What I'll learn
-Prompt engineering for structured, reliable JSON output from an LLM; designing a UI around AI-generated content that must feel personalized and trustworthy.
-
-### 🛠 Features to build
-- "Analyze My Resume" action that calls the LLM
-- Skill Gap Report display (strengths vs. gaps)
-- Personalized Prep Plan display (prioritized topic list)
-- Save both to the database, linked to the user and resume
-
-### 📝 Step-by-step implementation plan
-1. Define the **SDE Intern skill framework** as a fixed reference list you feed into the prompt — e.g. Data Structures & Algorithms, OOP fundamentals, System Design basics, Databases/SQL, Version Control/Git, Web Fundamentals, Problem Solving/Communication. This grounds the AI's analysis instead of letting it invent arbitrary criteria.
-2. Write the LLM prompt (system + user) instructing the model to: read the resume text, compare against the skill framework, and return **strict JSON** with fields like `{ strengths: [...], gaps: [{ topic, why, priority }], prep_plan: [{ topic, action, priority }] }`.
-3. Build a backend endpoint (or serverless function) `POST /api/analyze-resume` that: fetches resume text, calls the LLM API, parses the JSON response, saves it to a new `skill_reports` table (`id, user_id, resume_id, gaps_json, prep_plan_json, created_at`).
-4. Build `SkillGapReport.jsx` to render strengths and gaps clearly (e.g. two columns or a simple list with priority badges).
-5. Build `PrepPlan.jsx` to render the prioritized topic list.
-6. Add a loading state while the AI call is in progress (this can take several seconds).
-7. Add basic error handling: if the LLM call fails or returns malformed JSON, show a friendly retry message instead of a blank/broken screen.
-
-### 📂 Files and folders to create or modify
-```
-frontend/src/
+│   ├── resumeParser.js
 ├── analysis/
 │   ├── SkillGapReport.jsx
 │   ├── PrepPlan.jsx
@@ -197,36 +170,48 @@ backend/
 │   ├── analyzeResume.js
 ├── prompts/
 │   ├── skillGapPrompt.js
+├── lib/
+│   ├── geminiClient.js
 ```
 
 ### 🔗 APIs, libraries, services, or tools to integrate
-- Your LLM provider's API (Anthropic Claude API or equivalent)
-- Supabase (new `skill_reports` table)
+- `@supabase/supabase-js` (auth + database calls)
+- `pdfjs-dist` (PDF text extraction)
+- Google Gemini API
+- Supabase (`resumes` and `skill_reports` tables)
 
 ### 🧪 Testing tasks
-- Run the analysis on 3-4 different real/sample resumes (varying experience levels) and check output quality and consistency.
-- Confirm malformed JSON from the LLM is caught and doesn't crash the UI (test by temporarily breaking the prompt to force a bad response).
+- Sign up a new test account, confirm it appears in Supabase Auth dashboard.
+- Log out and log back in successfully.
+- Upload a real PDF resume, confirm extracted text looks correct (spot check).
+- Use paste fallback, confirm it saves identically.
+- Confirm an unauthenticated user is redirected away from protected screens.
+- Run the analysis on 3-4 different real/sample resumes and check output quality and consistency.
+- Confirm malformed JSON from Gemini is caught and doesn't crash the UI.
 - Confirm results save correctly and reload correctly if the user revisits the page.
 
 ### 🐞 Common issues and debugging tips
-- **LLM returns JSON wrapped in markdown fences (` ```json `):** strip these before `JSON.parse()`, or explicitly instruct the model to return raw JSON only, no preamble.
-- **Inconsistent output structure between calls:** tighten the prompt with an explicit example of the exact JSON shape expected.
-- **Report feels generic, not personalized:** make sure the actual resume text is being interpolated into the prompt, not a placeholder — a very common silent bug.
+- **PDF extraction returns garbled text:** common with multi-column resumes — this is exactly why the paste fallback exists; don't over-invest time perfecting PDF parsing.
+- **Supabase RLS blocking inserts:** confirm policies from `SCHEMA.md` are active (verified Day 3) — if inserts fail, double check `auth.uid() = user_id` matches.
+- **Gemini returns JSON wrapped in markdown fences:** strip these before `JSON.parse()`, or instruct the model explicitly to return raw JSON only.
+- **Report feels generic, not personalized:** verify the actual resume text is being interpolated into the prompt, not a placeholder.
 
 ### ✅ End-of-day checklist
+- [ ] Signup/login/logout working end-to-end
+- [ ] Protected routes enforced
+- [ ] PDF upload extracts and saves text; paste fallback works identically
 - [ ] Resume analysis produces valid structured JSON reliably (test at least 4 times)
-- [ ] Skill Gap Report renders clearly in the UI
-- [ ] Prep Plan renders clearly and reads as prioritized, not just a flat list
-- [ ] Results persist and reload from the database
-- [ ] Error state handles LLM failures gracefully
+- [ ] Skill Gap Report and Prep Plan render clearly and persist correctly
+- [ ] Error states handled gracefully throughout
 
 ### 📸 Expected project state and screenshots to capture
-- Screenshot of a completed Skill Gap Report for a real test resume
-- Screenshot of the corresponding Prep Plan
-- Screenshot of the `skill_reports` table row in Supabase
+- Screenshot of signup form and successful account creation
+- Screenshot of resume upload screen with a real resume uploaded
+- Screenshot of a completed Skill Gap Report and Prep Plan for a real test resume
+- Screenshot of the relevant Supabase table rows
 
 ### ➡️ Handoff notes for next day
-The AI can now turn a saved resume into a Skill Gap Report + Prep Plan, both displayed and persisted. Day 5 builds the tagged question bank and the logic that selects mock interview questions based on the gaps identified today.
+Auth, resume storage, and AI-driven Skill Gap Report + Prep Plan are all working and persisted. Day 5 builds the tagged question bank and the logic that selects mock interview questions based on the gaps identified today.
 
 ---
 
