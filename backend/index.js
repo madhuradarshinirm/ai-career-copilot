@@ -3,6 +3,7 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import { verifyAuth } from './middleware/verifyAuth.js'
 import analyzeResumeRouter from './routes/analyzeResume.js'
+import startInterviewRouter from './routes/startInterview.js'
 
 dotenv.config()
 
@@ -15,6 +16,7 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api', verifyAuth, analyzeResumeRouter)
+app.use('/api', verifyAuth, startInterviewRouter)
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT, () => {
