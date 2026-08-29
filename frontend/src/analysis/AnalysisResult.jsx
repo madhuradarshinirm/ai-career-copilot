@@ -27,12 +27,7 @@ export default function AnalysisResult() {
       const result = await apiPost('/api/start-interview', {
         skill_report_id: analysis.skill_report_id,
       })
-      // Day 6 will build the actual interview-taking screen at /interview.
-      // For today, we confirm the session + questions were created correctly.
-      console.log('Interview session created:', result)
-      alert(
-        `Session created with ${result.questions.length} questions. Full interview UI comes Day 6. Check the browser console for the question set.`
-      )
+      navigate('/interview', { state: result })
     } catch (err) {
       setError('Failed to start interview. Please try again.')
     } finally {

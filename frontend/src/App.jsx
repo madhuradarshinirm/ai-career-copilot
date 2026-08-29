@@ -7,6 +7,8 @@ import SignUp from './auth/SignUp'
 import Dashboard from './dashboard/Dashboard'
 import ResumeUpload from './resume/ResumeUpload'
 import AnalysisResult from './analysis/AnalysisResult'
+import InterviewSession from './interview/InterviewSession'
+import SessionSummary from './interview/SessionSummary'
 
 function App() {
   return (
@@ -37,6 +39,22 @@ function App() {
             element={
               <ProtectedRoute>
                 <AnalysisResult />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/interview"
+            element={
+              <ProtectedRoute>
+                <InterviewSession />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/interview-summary"
+            element={
+              <ProtectedRoute>
+                <SessionSummary />
               </ProtectedRoute>
             }
           />

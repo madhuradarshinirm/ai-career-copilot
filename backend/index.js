@@ -4,6 +4,8 @@ import dotenv from 'dotenv'
 import { verifyAuth } from './middleware/verifyAuth.js'
 import analyzeResumeRouter from './routes/analyzeResume.js'
 import startInterviewRouter from './routes/startInterview.js'
+import evaluateAnswerRouter from './routes/evaluateAnswer.js'
+import completeInterviewRouter from './routes/completeInterview.js'
 
 dotenv.config()
 
@@ -17,6 +19,8 @@ app.get('/', (req, res) => {
 
 app.use('/api', verifyAuth, analyzeResumeRouter)
 app.use('/api', verifyAuth, startInterviewRouter)
+app.use('/api', verifyAuth, evaluateAnswerRouter)
+app.use('/api', verifyAuth, completeInterviewRouter)
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT, () => {
