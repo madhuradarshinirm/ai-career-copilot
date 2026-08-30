@@ -1,6 +1,6 @@
 import express from 'express'
 import { supabaseAdmin } from '../lib/supabaseAdmin.js'
-import { callGemini, parseJsonResponse } from '../lib/geminiClient.js'
+import { callGeminiForJson } from '../lib/geminiClient.js'
 import { buildFeedbackPrompt } from '../prompts/feedbackPrompt.js'
 
 const router = express.Router()
@@ -17,7 +17,6 @@ router.post('/evaluate-answer', async (req, res) => {
     return res.status(400).json({ error: 'Answer is too long (max 3000 characters)' })
   }
 
-  // Confirm the session belongs to this user
   const { data: session, error: sessionError } = await supabaseAdmin
     .from('interview_sessions')
     .select('*')
@@ -32,12 +31,10 @@ router.post('/evaluate-answer', async (req, res) => {
     return res.status(403).json({ error: 'This session does not belong to you' })
   }
 
-  // Confirm the question is actually part of this session
   if (!session.question_ids.includes(question_id)) {
     return res.status(409).json({ error: 'This question is not part of the given session' })
   }
 
-  // Fetch the question text
   const { data: question, error: questionError } = await supabaseAdmin
     .from('questions')
     .select('*')
@@ -52,16 +49,10 @@ router.post('/evaluate-answer', async (req, res) => {
 
   let parsed
   try {
-    const rawResponse = await callGemini(prompt)
-    parsed = parseJsonResponse(rawResponse)
-  } catch (firstError) {
-    try {
-      const rawResponse = await callGemini(prompt)
-      parsed = parseJsonResponse(rawResponse)
-    } catch (secondError) {
-      console.error('Gemini feedback call failed twice:', secondError.message)
-      return res.status(502).json({ error: 'AI feedback failed. Please try again.' })
-    }
+    parsed = await callGeminiForJson(prompt)
+  } catch (err) {
+    console.error('Gemini feedback call failed twice:', err.message)
+    return res.status(502).json({ error: 'AI feedback failed. Please try again.' })
   }
 
   if (

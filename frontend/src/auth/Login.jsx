@@ -34,8 +34,9 @@ export default function Login() {
       <h1>Log In</h1>
       <form onSubmit={handleSubmit}>
         <div style={{ marginBottom: '1rem' }}>
-          <label>Email</label>
+          <label htmlFor="login-email">Email</label>
           <input
+            id="login-email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -44,8 +45,9 @@ export default function Login() {
           />
         </div>
         <div style={{ marginBottom: '1rem' }}>
-          <label>Password</label>
+          <label htmlFor="login-password">Password</label>
           <input
+            id="login-password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -53,7 +55,7 @@ export default function Login() {
             style={{ width: '100%', padding: '0.5rem', marginTop: '0.25rem' }}
           />
         </div>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+        {error && <p role="alert" style={{ color: '#e05252' }}>{error}</p>}
         <button type="submit" disabled={loading} style={{ width: '100%', padding: '0.6rem' }}>
           {loading ? 'Logging in...' : 'Log In'}
         </button>

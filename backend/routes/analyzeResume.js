@@ -1,6 +1,6 @@
 import express from 'express'
 import { supabaseAdmin } from '../lib/supabaseAdmin.js'
-import { callGemini, parseJsonResponse } from '../lib/geminiClient.js'
+import { callGeminiForJson } from '../lib/geminiClient.js'
 import { buildSkillGapPrompt } from '../prompts/skillGapPrompt.js'
 
 const router = express.Router()
@@ -13,7 +13,6 @@ router.post('/analyze-resume', async (req, res) => {
     return res.status(400).json({ error: 'resume_id is required' })
   }
 
-  // Fetch the resume and confirm ownership
   const { data: resume, error: fetchError } = await supabaseAdmin
     .from('resumes')
     .select('*')
@@ -32,17 +31,10 @@ router.post('/analyze-resume', async (req, res) => {
 
   let parsed
   try {
-    const rawResponse = await callGemini(prompt)
-    parsed = parseJsonResponse(rawResponse)
-  } catch (firstError) {
-    // Retry once
-    try {
-      const rawResponse = await callGemini(prompt)
-      parsed = parseJsonResponse(rawResponse)
-    } catch (secondError) {
-      console.error('Gemini call failed twice:', secondError.message)
-      return res.status(502).json({ error: 'AI analysis failed. Please try again.' })
-    }
+    parsed = await callGeminiForJson(prompt)
+  } catch (err) {
+    console.error('Gemini call failed twice:', err.message)
+    return res.status(502).json({ error: 'AI analysis failed. Please try again.' })
   }
 
   if (!parsed.strengths || !parsed.gaps || !parsed.prep_plan) {

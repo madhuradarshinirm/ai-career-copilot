@@ -27,7 +27,6 @@ export default function SignUp() {
       return
     }
 
-    // If Supabase requires email confirmation, there will be no active session yet.
     if (data.session) {
       navigate('/dashboard')
     } else {
@@ -50,8 +49,9 @@ export default function SignUp() {
       <h1>Sign Up</h1>
       <form onSubmit={handleSubmit}>
         <div style={{ marginBottom: '1rem' }}>
-          <label>Email</label>
+          <label htmlFor="signup-email">Email</label>
           <input
+            id="signup-email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -60,8 +60,9 @@ export default function SignUp() {
           />
         </div>
         <div style={{ marginBottom: '1rem' }}>
-          <label>Password</label>
+          <label htmlFor="signup-password">Password</label>
           <input
+            id="signup-password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -70,7 +71,7 @@ export default function SignUp() {
             style={{ width: '100%', padding: '0.5rem', marginTop: '0.25rem' }}
           />
         </div>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+        {error && <p role="alert" style={{ color: '#e05252' }}>{error}</p>}
         <button type="submit" disabled={loading} style={{ width: '100%', padding: '0.6rem' }}>
           {loading ? 'Creating account...' : 'Sign Up'}
         </button>
